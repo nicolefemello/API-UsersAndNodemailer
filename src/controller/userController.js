@@ -27,15 +27,49 @@ class UserController {
 
   static async updateUser(req, res) { //put user
     try {
-      const user = await User.findByIdAndUpdate(req.body.id, {
+      const user = await User.findByIdAndUpdate(req.params.id, {
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
       });
 
       res.status(200).send("Usuário atualizado:" + user);
     } catch (error) {
-        res.status(500).send("Erro em atualizar usuário!");
+      res.status(500).send("Erro em atualizar usuário!");
+    }
+  }
+
+  static async updateItemUser(req, res) { //put item user
+    const { email, currentPassword, newPassword } = req.body;
+
+    try {
+      const user = await User.findById(req.params.id);
+
+      if (email) {
+        const existingEmail = await User.findOne({ email });
+
+        if (existingEmail && existingEmail.id.toString() !== user.id) {
+          return res.status(500).send("Já possui um usuário com este e-mail!");
+        }
+
+        await User.findByIdAndUpdate(user, { email });
+      }
+
+      res.status(200).send("Usuário atualizado:" + user);
+    } catch (error) {
+      res.status(500).send("Erro em atualizar usuário!");
+    }
+  }
+
+  static async deleteUser(req, res) { //delete user
+    try {
+      const user = await User.findByIdAndDelete(req.params.id);
+
+      res.status(200).send("Usuário deletado!");
+    } catch (error) {
+      res.status(500).send("Erro em deletar usuário!");
     }
   }
 }
+
+export default UserController;

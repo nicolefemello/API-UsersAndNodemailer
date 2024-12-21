@@ -4,12 +4,13 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "nicolefemello",
   "license": "ISC",
-  "description": "",
+  "description": "API Users, com Node.js, MongoDB e Nodemailer",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
